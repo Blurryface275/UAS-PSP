@@ -1,6 +1,6 @@
 # Modul 2: Pengadaan / Supply Chain (Inbound)
 
-**Penanggung Jawab:** Orang 2
+**Penanggung Jawab:** Shelyn
 **Target Pengguna:** Administrator & Pegawai
 
 ## Ringkasan Tugas

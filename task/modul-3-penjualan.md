@@ -1,6 +1,6 @@
 # Modul 3: Penjualan & Pelacakan (Outbound)
 
-**Penanggung Jawab:** Orang 3
+**Penanggung Jawab:** Kenny
 **Target Pengguna:** Customer (depan) & Administrator/Pegawai (belakang)
 
 ## Ringkasan Tugas
