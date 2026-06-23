@@ -1,7 +1,7 @@
 # Modul 3: Penjualan & Pelacakan (Outbound)
 
 **Penanggung Jawab:** Kenny
-**Target Pengguna:** Customer (depan) & Administrator/Pegawai (belakang)
+**Target Pengguna:** Customer (depan) & Administrator/Pegawai (belakang) _(Akun Test Customer: `customer@uas.com` | Pass: `password`)_
 
 ## Ringkasan Tugas
 

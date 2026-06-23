@@ -1,7 +1,7 @@
 # Modul 2: Pengadaan / Supply Chain (Inbound)
 
 **Penanggung Jawab:** Shelyn
-**Target Pengguna:** Administrator & Pegawai
+**Target Pengguna:** Administrator & Pegawai _(Akun Test Pegawai: `pegawai@uas.com` | Pass: `password`)_
 
 ## Ringkasan Tugas
 
