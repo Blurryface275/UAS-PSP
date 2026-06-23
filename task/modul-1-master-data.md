@@ -1,7 +1,7 @@
 # Modul 1: Master Data, Layouting & Laporan PDF
 
 **Penanggung Jawab:** Steve
-**Target Pengguna:** Administrator
+**Target Pengguna:** Administrator _(Akun Test: `admin@uas.com` | Pass: `password`)_
 
 ## Ringkasan Tugas
 
