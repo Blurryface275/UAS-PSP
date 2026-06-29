@@ -113,7 +113,7 @@
                             Dashboard
                         </a>
                         
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('category.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
                             Master Kategori
                         </a>
