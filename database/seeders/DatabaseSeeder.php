@@ -245,5 +245,21 @@ class DatabaseSeeder extends Seeder
             'qty' => 25,
             'price' => $p4->price,
         ]);
+
+        // 10. Sales (Penjualan untuk Customer)
+        $customer = User::where('role', 'customer')->first();
+        
+        $sale1 = Sale::create([
+            'user_id' => $customer->id,
+            'status' => 'pending',
+            'total_amount' => 500000, // (2 x 250rb)
+        ]);
+
+        SaleDetail::create([
+            'sale_id' => $sale1->id,
+            'product_id' => $p1->id, // Sepatu Sneakers
+            'qty' => 2,
+            'price' => 250000,
+        ]);
     }
 }

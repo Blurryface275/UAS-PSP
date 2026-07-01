@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\OrderController;
 
 
 Route::get('/', function () {
@@ -40,3 +41,20 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/checkout', [OrderController::class, 'showCheckout'])->name('orders.checkout.show');
+
+// Route Khusus Customer (Akses belanja & histori pesanan)
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.tracking');
+});
+
+// Route Khusus Admin/Pegawai (Akses memproses pesanan)
+Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
+    // Tambahkan di dalam grup middleware yang sudah ada
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
+    Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+});
