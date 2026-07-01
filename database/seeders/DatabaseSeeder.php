@@ -89,40 +89,40 @@ class DatabaseSeeder extends Seeder
 
         //6. purchase order
         $pegawai = User::where('role', 'pegawai')->first();
-        $supplier = Supplier::first();
+        $suppliers = Supplier::all();
 
         $po1 = PurchaseOrder::create([
             'status' => 'pending',
             'estimated_total' => 3250000,
-            'supplier_id' => $supplier->id,
+            'supplier_id' => $suppliers[0]->id,
             'user_id' => $pegawai->id,
         ]);
 
         $po2 = PurchaseOrder::create([
             'status' => 'pending',
             'estimated_total' => 15000000,
-            'supplier_id' => $supplier->id,
+            'supplier_id' => $suppliers[1]->id,
             'user_id' => $pegawai->id,
         ]);
 
         $po3 = PurchaseOrder::create([
             'status' => 'pending',
             'estimated_total' => 1250000,
-            'supplier_id' => $supplier->id,
+            'supplier_id' => $suppliers[2]->id,
             'user_id' => $pegawai->id,
         ]);
 
         $po4 = PurchaseOrder::create([
             'status' => 'pending',
             'estimated_total' => 4750000,
-            'supplier_id' => $supplier->id,
+            'supplier_id' => $suppliers[3]->id,
             'user_id' => $pegawai->id,
         ]);
 
         $po5 = PurchaseOrder::create([
             'status' => 'pending',
             'estimated_total' => 2000000,
-            'supplier_id' => $supplier->id,
+            'supplier_id' => $suppliers[4]->id,
             'user_id' => $pegawai->id,
         ]);
 

@@ -7,14 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     protected $fillable = [
-        'received_date',
         'total_amount',
         'user_id',
         'purchase_order_id',
-    ];
-
-    protected $casts = [
-        'received_date' => 'datetime',
     ];
 
     public function purchaseOrder()

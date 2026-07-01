@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,15 +14,18 @@
         .sb-nav-fixed {
             padding-top: 56px;
         }
+
         .sb-sidenav {
             display: flex;
             flex-direction: column;
             height: 100%;
             flex-wrap: nowrap;
         }
+
         #layoutSidenav {
             display: flex;
         }
+
         #layoutSidenav_nav {
             flex-basis: 225px;
             flex-shrink: 0;
@@ -29,6 +33,7 @@
             z-index: 1038;
             transform: translateX(-225px);
         }
+
         #layoutSidenav_content {
             position: relative;
             display: flex;
@@ -40,38 +45,48 @@
             margin-left: -225px;
             transition: margin 0.15s ease-in-out;
         }
+
         .sb-sidenav-toggled #layoutSidenav_nav {
             transform: translateX(0);
         }
+
         .sb-sidenav-toggled #layoutSidenav_content {
             margin-left: 0;
         }
+
         @media (min-width: 992px) {
             #layoutSidenav_nav {
                 transform: translateX(0);
             }
+
             #layoutSidenav_content {
                 margin-left: 0;
             }
+
             .sb-sidenav-toggled #layoutSidenav_nav {
                 transform: translateX(-225px);
             }
+
             .sb-sidenav-toggled #layoutSidenav_content {
                 margin-left: -225px;
             }
         }
+
         .sb-sidenav-dark {
             background-color: #212529;
             color: rgba(255, 255, 255, 0.5);
         }
+
         .sb-sidenav-dark .sb-sidenav-menu .nav-link {
             color: rgba(255, 255, 255, 0.5);
             padding-top: 0.75rem;
             padding-bottom: 0.75rem;
         }
+
         .sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
             color: #fff;
         }
+
         .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
             padding: 1.75rem 1rem 0.75rem;
             font-size: 0.75rem;
@@ -81,23 +96,36 @@
     </style>
     @stack('styles')
 </head>
+
 <body class="sb-nav-fixed">
     <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
         <!-- Sidebar Toggle (Kiri) -->
-        <button class="btn btn-link btn-sm ms-3 text-white-50" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm ms-3 text-white-50" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
         <!-- Navbar Brand (Kanan) -->
         <a class="navbar-brand ms-2 text-truncate" style="width: 175px;" href="#">Sistem Admin</a>
         <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <ul
+            class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-user fa-fw"></i> {{ auth()->user()->name ?? 'Guest' }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -107,27 +135,48 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav flex-column">
-                        
+
                         <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        
+
                         <a class="nav-link" href="{{ route('category.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
                             Master Kategori
                         </a>
+
                         <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
                             Master Produk
                         </a>
+
                         <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Manajemen User
                         </a>
+
+                        <div class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseSubmenu" aria-expanded="false" aria-controls="purchaseSubmenu">
+                                <div class="sb-nav-link-icon"><i class="fas fa-cart-plus"></i></div>
+                                Purchase Order
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="purchaseSubmenu">
+                                <nav class="sb-sidenav-menu-nested nav flex-column ms-3">
+                                    <a class="nav-link py-2" href="{{ route('purchase-orders.index') }}">
+                                        <i class="fas fa-list me-2"></i> Data PO
+                                    </a>
+                                    <a class="nav-link py-2" href="{{ route('purchases.index') }}">
+                                        <i class="fas fa-truck-loading me-2"></i> Penerimaan Barang
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer p-3 position-absolute bottom-0" style="background-color: #343a40; color: #fff;">
+                <div class="sb-sidenav-footer p-3 position-absolute bottom-0"
+                    style="background-color: #343a40; color: #fff;">
                     <div class="small">Logged in as:</div>
                     Start Bootstrap Admin
                 </div>
@@ -162,11 +211,13 @@
                 sidebarToggle.addEventListener('click', event => {
                     event.preventDefault();
                     document.body.classList.toggle('sb-sidenav-toggled');
-                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains(
+                        'sb-sidenav-toggled'));
                 });
             }
         });
     </script>
     @stack('scripts')
 </body>
+
 </html>
