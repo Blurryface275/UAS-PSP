@@ -8,6 +8,12 @@ use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
+use App\Models\Purchase;
+use App\Models\PurchaseDetail;
+use App\Models\Sale;
+use App\Models\SaleDetail;
 
 class DatabaseSeeder extends Seeder
 {
@@ -72,7 +78,7 @@ class DatabaseSeeder extends Seeder
         // 5. Generate Sisanya menggunakan Factory agar genap 10 per tabel!
         Category::factory(7)->create();
         Supplier::factory(8)->create();
-        
+
         $allCategories = Category::all();
         Product::factory(6)->create()->each(function ($p) use ($allCategories) {
             // Pasangkan setiap produk dummy factory ini ke 1 atau 2 kategori secara acak
@@ -80,5 +86,164 @@ class DatabaseSeeder extends Seeder
                 $allCategories->random(rand(1, 2))->pluck('id')->toArray()
             );
         });
+
+        //6. purchase order
+        $pegawai = User::where('role', 'pegawai')->first();
+        $supplier = Supplier::first();
+
+        $po1 = PurchaseOrder::create([
+            'status' => 'pending',
+            'estimated_total' => 3250000,
+            'supplier_id' => $supplier->id,
+            'user_id' => $pegawai->id,
+        ]);
+
+        $po2 = PurchaseOrder::create([
+            'status' => 'pending',
+            'estimated_total' => 15000000,
+            'supplier_id' => $supplier->id,
+            'user_id' => $pegawai->id,
+        ]);
+
+        $po3 = PurchaseOrder::create([
+            'status' => 'pending',
+            'estimated_total' => 1250000,
+            'supplier_id' => $supplier->id,
+            'user_id' => $pegawai->id,
+        ]);
+
+        $po4 = PurchaseOrder::create([
+            'status' => 'pending',
+            'estimated_total' => 4750000,
+            'supplier_id' => $supplier->id,
+            'user_id' => $pegawai->id,
+        ]);
+
+        $po5 = PurchaseOrder::create([
+            'status' => 'pending',
+            'estimated_total' => 2000000,
+            'supplier_id' => $supplier->id,
+            'user_id' => $pegawai->id,
+        ]);
+
+        //7. purchase order detail
+        // PO 1
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po1->id,
+            'product_id' => $p1->id,
+            'expected_price_per_unit' => $p1->price,
+            'qty' => 5,
+        ]);
+
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po1->id,
+            'product_id' => $p2->id,
+            'expected_price_per_unit' => $p2->price,
+            'qty' => 10,
+        ]);
+
+        // PO 2
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po2->id,
+            'product_id' => $p3->id,
+            'expected_price_per_unit' => $p3->price,
+            'qty' => 1,
+        ]);
+
+        // PO 3
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po3->id,
+            'product_id' => $p4->id,
+            'expected_price_per_unit' => $p4->price,
+            'qty' => 25,
+        ]);
+
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po3->id,
+            'product_id' => $p2->id,
+            'expected_price_per_unit' => $p2->price,
+            'qty' => 4,
+        ]);
+
+        // PO 4
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po4->id,
+            'product_id' => $p1->id,
+            'expected_price_per_unit' => $p1->price,
+            'qty' => 8,
+        ]);
+
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po4->id,
+            'product_id' => $p3->id,
+            'expected_price_per_unit' => $p3->price,
+            'qty' => 2,
+        ]);
+
+        // PO 5
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po5->id,
+            'product_id' => $p2->id,
+            'expected_price_per_unit' => $p2->price,
+            'qty' => 6,
+        ]);
+
+        PurchaseOrderDetail::create([
+            'purchase_order_id' => $po5->id,
+            'product_id' => $p4->id,
+            'expected_price_per_unit' => $p4->price,
+            'qty' => 15,
+        ]);
+
+        //8. purchases
+        $purchase1 = Purchase::create([
+            'purchase_order_id' => $po1->id,
+            'user_id' => $pegawai->id,
+            'total_amount' => 2750000,
+        ]);
+
+        $purchase2 = Purchase::create([
+            'purchase_order_id' => $po2->id,
+            'user_id' => $pegawai->id,
+            'total_amount' => 15000000,
+        ]);
+
+        $purchase3 = Purchase::create([
+            'purchase_order_id' => $po3->id,
+            'user_id' => $pegawai->id,
+            'total_amount' => 1400000,
+        ]);
+
+        //9. purchase details
+        // Purchase 1
+        PurchaseDetail::create([
+            'purchase_id' => $purchase1->id,
+            'product_id' => $p1->id,
+            'qty' => 5,
+            'price' => $p1->price,
+        ]);
+
+        PurchaseDetail::create([
+            'purchase_id' => $purchase1->id,
+            'product_id' => $p2->id,
+            'qty' => 10,
+            'price' => $p2->price,
+        ]);
+
+        // Purchase 2
+        PurchaseDetail::create([
+            'purchase_id' => $purchase2->id,
+            'product_id' => $p3->id,
+            'qty' => 1,
+            'price' => $p3->price,
+        ]);
+
+        // Purchase 3
+        PurchaseDetail::create([
+            'purchase_id' => $purchase3->id,
+            'product_id' => $p4->id,
+            'qty' => 25,
+            'price' => $p4->price,
+        ]);
     }
 }

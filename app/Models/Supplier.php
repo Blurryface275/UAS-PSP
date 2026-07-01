@@ -10,4 +10,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 class Supplier extends Model
 {
     use HasFactory;
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
 }
