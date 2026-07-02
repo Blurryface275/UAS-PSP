@@ -7,9 +7,25 @@
 
 Anda menavigasi ujung tombak etalase aplikasi web ini. Di modul inilah _Customer_ dapat mencetak interaksi jual-beli. Tanggung jawab Anda meliputi pelancaran fitur Keranjang/Checkout interaktif, hingga penyajian UI pelacakan alur perpindahan pesanannya.
 
+## 📝 Checklist To-Do Utama (Modul 3)
+
+- [ ] Buat `SalesController` & konfigurasi rute Checkout (Keranjang).
+- [ ] **Bangun Customer Dashboard (Area Member Khusus Pembeli)**.
+- [ ] Rancang UI "Manajemen Pesanan" di area Backend Admin (untuk Admin memproses paket resi).
+- [ ] Terapkan `DB::transaction()` disertai `lockForUpdate()` saat pembayaran di-klik (Pencegahan Race-Condition Cacat Stok).
+- [ ] Kuatkan sekuriti Endpoint Controller (_Anti-IDOR_) agar _Customer A_ tidak bisa menyentil _URL_ milik _Customer B_.
+
 ## Rincian Cara Kerja Secara Detail
 
-### 1. Katalog Penjualan & Checkout (Sisi Customer)
+### 1. Customer Dashboard (Laman Anggota Pembeli)
+
+Sebuah web E-Commerce modern wajib menyediakan ruang privat untuk pembeli. Modul 3 bertanggung jawab menciptakan wadah **Profil Area / Member Dashboard** bagi `role=customer` ini, yang sekurang-kurangnya meliputi:
+
+- **Menu Profil Saya:** Tempat pelanggan mengganti identitas (nama, foto) dan _alamat default_ pengiriman mereka.
+- **Daftar Belanja Tertunda:** Wadah _Cart_ yang memperlihatkan rangkuman total harga & ongkos transaksi yang belum dibayar.
+- **Histori Pesanan (My Orders):** Memperlihatkan daftar ringkas keseluruhan _Invoice_ historis pelanggan, di mana pelanggan bisa meng-klik salah satunya untuk melihat detail struk per-hari ini.
+
+### 2. Katalog Penjualan & Checkout (Sisi Etalase)
 
 - **Tindakan:** Membuat area tampilan luar untuk Customer (Bisa menggunakan template/layout front-end web dinamis buatan Steve dari Modul 1). Customer (status=Terautentikasi Login) akan menjaring katalog dan melakukan _Checkout / Sales_.
 - **Proses:** Saat Customer melakukan check-out, dokumen direkam otomatis di `sales` ditambah rincian harga+qty di `sale_details`.

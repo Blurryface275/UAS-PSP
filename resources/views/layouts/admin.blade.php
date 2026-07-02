@@ -136,43 +136,56 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav flex-column">
 
-                        <a class="nav-link" href="#">
+                        <!-- AREA UTAMA -->
+                        <div class="sb-sidenav-menu-heading">Utama</div>
+                        <a class="nav-link" href="{{ route('dashboard') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
 
+                        <!-- AREA MODUL 1: MASTER DATA (Steve) -->
+                        <div class="sb-sidenav-menu-heading">Modul 1: Master Data</div>
                         <a class="nav-link" href="{{ route('category.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
-                            Master Kategori
+                            Data Kategori
                         </a>
-
                         <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
-                            Master Produk
+                            <div class="sb-nav-link-icon"><i class="fas fa-box-open"></i></div>
+                            Data Barang / Produk
                         </a>
-
                         <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
                             Manajemen User
                         </a>
 
-                        <div class="nav-item">
-                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseSubmenu" aria-expanded="false" aria-controls="purchaseSubmenu">
-                                <div class="sb-nav-link-icon"><i class="fas fa-cart-plus"></i></div>
-                                Purchase Order
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="purchaseSubmenu">
-                                <nav class="sb-sidenav-menu-nested nav flex-column ms-3">
-                                    <a class="nav-link py-2" href="{{ route('purchase-orders.index') }}">
-                                        <i class="fas fa-list me-2"></i> Data PO
-                                    </a>
-                                    <a class="nav-link py-2" href="{{ route('purchases.index') }}">
-                                        <i class="fas fa-truck-loading me-2"></i> Penerimaan Barang
-                                    </a>
-                                </nav>
-                            </div>
+                        <!-- AREA MODUL 2: PENGADAAN (Inbound) -->
+                        <div class="sb-sidenav-menu-heading">Modul 2: Suplai Area</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Data Supplier
+                        </a>
+                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseSubmenu" aria-expanded="false" aria-controls="purchaseSubmenu">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                            Purchase Order (PO)
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="purchaseSubmenu">
+                            <nav class="sb-sidenav-menu-nested nav flex-column ms-3">
+                                <a class="nav-link py-2" href="#"><i class="fas fa-list me-2"></i> Buat PO Baru</a>
+                                <a class="nav-link py-2" href="#"><i class="fas fa-box-open me-2"></i> Terima Barang</a>
+                            </nav>
                         </div>
+
+                        <!-- AREA MODUL 3: PENJUALAN (Outbound - Kenny) -->
+                        <div class="sb-sidenav-menu-heading">Modul 3: Sales Area</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                            Pesanan Customer
+                        </a>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
+                            Update Pengiriman
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer p-3 position-absolute bottom-0"
