@@ -139,10 +139,17 @@
                                             @if (auth()->user()?->role === 'administrator' && $po->status === 'pending')
                                                 <form action="{{ route('purchase-orders.approve', $po->id) }}" method="POST" class="d-inline">
                                                     @csrf
-                                                    <button class="btn btn-success btn-sm">
+                                                    <button class="btn btn-success btn-sm text-white fw-bold">
                                                         <i class="fas fa-check"></i> Setujui
                                                     </button>
                                                 </form>
+                                            @endif
+
+                                            <!-- Tambahan Tombol Terima Barang jika PO sudah diapprove -->
+                                            @if ($po->status === 'approved')
+                                                <a href="{{ route('purchase-orders.receive', $po->id) }}" class="btn btn-primary btn-sm fw-bold">
+                                                    <i class="fas fa-box-open"></i> Terima Barang
+                                                </a>
                                             @endif
 
                                             @if (!in_array($po->status, ['completed', 'cancelled']))

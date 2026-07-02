@@ -162,8 +162,8 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrder->update(['status' => 'approved']);
 
-        return redirect()->route('purchase-orders.show', $purchaseOrder)
-            ->with('success', 'Purchase Order berhasil disetujui dan siap dikirim ke supplier.');
+        return redirect()->route('purchase-orders.index')
+            ->with('success', 'Purchase Order berhasil disetujui dan siap dikirim ke supplier (Tinggal Terima Barang).');
     }
 
     public function cancel(PurchaseOrder $purchaseOrder)
@@ -178,8 +178,8 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrder->update(['status' => 'cancelled']);
 
-        return redirect()->route('purchase-orders.show', $purchaseOrder)
-            ->with('success', 'Purchase Order berhasil dibatalkan.');
+        return redirect()->route('purchase-orders.index')
+            ->with('success', 'Purchase Order berhasil dibatalkan dari sistem.');
     }
 
     /**
