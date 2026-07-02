@@ -119,11 +119,12 @@
                         <hr class="dropdown-divider" />
                     </li>
                     <li>
-                        <form action="{{ route('logout') }}" method="POST">
+                        <!-- Teknik Logout standard Laravel membalut Form POST dengan tag <a> onclick -->
+                        <a class="dropdown-item fw-bold text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout Sistem
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
-                            <button type="submit" class="dropdown-item">
-                                Logout
-                            </button>
                         </form>
                     </li>
                 </ul>
@@ -171,8 +172,8 @@
                         </a>
                         <div class="collapse" id="purchaseSubmenu">
                             <nav class="sb-sidenav-menu-nested nav flex-column ms-3">
-                                <a class="nav-link py-2" href="#"><i class="fas fa-list me-2"></i> Buat PO Baru</a>
-                                <a class="nav-link py-2" href="#"><i class="fas fa-box-open me-2"></i> Terima Barang</a>
+                                <a class="nav-link py-2" href="{{ route('purchase-orders.index') }}"><i class="fas fa-list me-2"></i> Kelola Laporan PO</a>
+                                <a class="nav-link py-2" href="{{ route('purchases.index') }}"><i class="fas fa-box-open me-2"></i> Riwayat Penerimaan</a>
                             </nav>
                         </div>
 
@@ -188,10 +189,11 @@
                         </a>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer p-3 position-absolute bottom-0"
+                <div class="sb-sidenav-footer p-3 w-100 mt-auto border-top border-dark"
                     style="background-color: #343a40; color: #fff;">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap Admin
+                    <div class="small text-white-50">Masuk sebagai:</div>
+                    <div class="fw-bold">{{ auth()->user()->name ?? 'Offline Mode' }}</div>
+                    <div class="badge bg-secondary mt-1 border border-secondary">{{ strtoupper(auth()->user()->role ?? 'Guest') }}</div>
                 </div>
             </nav>
         </div>

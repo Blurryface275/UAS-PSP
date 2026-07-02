@@ -20,6 +20,8 @@ class PurchaseDetail extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        // PENTING: Tambahkan withTrashed() agar tabel riwayat pesanan (Modul 2/3) tidak jebol 
+        // saat mencari id barang yang sudah masuk tong sampah (Soft Deleted).
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 }

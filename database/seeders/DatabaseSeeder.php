@@ -80,7 +80,8 @@ class DatabaseSeeder extends Seeder
         Supplier::factory(8)->create();
 
         $allCategories = Category::all();
-        Product::factory(6)->create()->each(function ($p) use ($allCategories) {
+        // Generate kelipatan 16 supaya dijumlah 4 hardcode product di atas pass 20 Product.
+        Product::factory(16)->create()->each(function ($p) use ($allCategories) {
             // Pasangkan setiap produk dummy factory ini ke 1 atau 2 kategori secara acak
             $p->categories()->attach(
                 $allCategories->random(rand(1, 2))->pluck('id')->toArray()

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Sistem Kemudi Utama')
+@section('title', 'Sistem Utama Admin')
 
 @section('content')
 <h1 class="mt-4">Sistem Back-Office</h1>
@@ -70,7 +70,7 @@
         <div class="card mb-4 shadow-sm border-0">
             <div class="card-header bg-white fw-bold">
                 <i class="fas fa-tags me-1 text-primary"></i>
-                5 Kategori Baru Saja Dibuat
+                Preview 5 Kategori Terakhir
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -131,8 +131,8 @@
                 </div>
             </div>
             <div class="card-footer bg-white border-0 text-end">
-                <!-- Nanti tombol ini nyambung ke ProductController milikmu! -->
-                <a href="#" class="btn btn-sm btn-outline-success">Ke Menu Master Produk</a>
+                <!-- Nanti tombol ini nyambung ke ProductController -->
+                <a href="{{ route('product.index') }}" class="btn btn-sm btn-outline-success">Master Produk -></a>
             </div>
         </div>
     </div>

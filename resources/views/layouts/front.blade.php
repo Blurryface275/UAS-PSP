@@ -47,14 +47,20 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 @if(auth()->user()->role == 'administrator' || auth()->user()->role == 'pegawai')
-                                    <li><a class="dropdown-item" href="#">Masuk Backend (Admin)</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}">Masuk Backend (Admin)</a></li>
                                 @endif
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                                <li>
+                                    <!-- Logout Form khas Laravel -->
+                                    <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form-front').submit();">Logout</a>
+                                    <form id="logout-form-front" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     @else
-                        <a href="#" class="btn btn-primary">Login</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary px-4 fw-bold">Login</a>
                     @endauth
                 </div>
             </div>

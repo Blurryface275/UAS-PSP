@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 
 
 Route::get('/', function () {
@@ -36,6 +37,9 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
     Route::post('purchases/{purchaseOrder}/complete', [PurchaseController::class, 'complete'])->name('purchases.complete');
     Route::get('purchase-orders/{purchaseOrder}/receive', [PurchaseController::class, 'create'])->name('purchase-orders.receive');
     Route::post('purchase-orders/{purchaseOrder}/receive', [PurchaseController::class, 'store'])->name('purchase-orders.receive.store');
+
+    // Route ProductController
+    Route::resource('product', ProductController::class);
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
