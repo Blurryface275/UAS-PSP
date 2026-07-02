@@ -25,7 +25,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        // tarik semua daftar kategori buat dimasukin ke dropdown select
+        $categories = Category::all(); 
+        return view('admin.product.create', compact('categories'));
     }
 
     /**
@@ -33,7 +35,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input user dulu
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+         // Simpan File Fisiknya ke Folder 'public/products'
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        // Simpan data product
+        $product = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'image_url' => $imagePath,
+        ]);
+
+       
+        // Sinkronisasi kategori
+        $product->categories()->sync($request->category_id);
+
+        // Redirect ke halaman product
+        return redirect()->route('product.index')->with('success', 'Produk berhasil ditambahkan');
     }
 
     /**

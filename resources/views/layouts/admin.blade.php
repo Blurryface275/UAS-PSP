@@ -150,7 +150,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
                             Data Kategori
                         </a>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('product.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-box-open"></i></div>
                             Data Barang / Produk
                         </a>

@@ -18,9 +18,12 @@
 @endif
 
 <div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        Daftar Produk
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-table me-1"></i> Daftar Produk</span>
+        
+        <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm fw-bold shadow-sm">
+            <i class="fas fa-plus-circle me-1"></i> Tambah Produk Baru
+        </a>
     </div>
     <div class="card-body">
         <table class="table table-striped table-bordered align-middle">
