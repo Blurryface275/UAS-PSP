@@ -251,6 +251,7 @@ class DatabaseSeeder extends Seeder
         $customer = User::where('role', 'customer')->first();
         
         $sale1 = Sale::create([
+            'invoice_number' => 'INV-' . now()->format('YmdHis'), // ymdhis = year month day hour minute second
             'user_id' => $customer->id,
             'status' => 'pending',
             'total_amount' => 500000, // (2 x 250rb)

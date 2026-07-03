@@ -33,7 +33,12 @@ class AuthController extends Controller
         // Attempt to authenticate
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            $user = Auth::user();
+            if ($user->role == 'customer') {
+                return redirect()->intended(route('customer.dashboard'));
+            } else {
+                return redirect()->intended(route('dashboard'));
+            }
         }
 
         // Increment failed login attempts

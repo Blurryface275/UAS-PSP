@@ -53,7 +53,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route Khusus Customer (Akses belanja & histori pesanan)
 Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/dashboard',
+    Route::get('/customer/dashboard',
         [CustomerDashboardController::class,'index'])
         ->name('customer.dashboard');
 

@@ -62,16 +62,16 @@
                                         <td>#{{ $purchase->purchase_order_id }}</td>
 
                                         <td>
-                                            {{ $purchase->purchaseOrder->supplier->name ?? '-' }}
+                                            {{ $purchase->purchaseOrder?->supplier?->name ?? '-' }}
                                         </td>
 
                                         <td>
-                                            {{ $purchase->user->name ?? '-' }}
+                                            {{ $purchase->user?->name ?? '-' }}
                                         </td>
 
                                         <td>
 
-                                            @switch($purchase->purchaseOrder->status)
+                                            @switch($purchase->purchaseOrder?->status)
                                                 @case('pending')
                                                     <span class="badge bg-warning text-dark">
                                                         Pending
@@ -92,7 +92,7 @@
 
                                                 @default
                                                     <span class="badge bg-secondary">
-                                                        {{ ucfirst($purchase->purchaseOrder->status) }}
+                                                        {{ ucfirst($purchase->purchaseOrder?->status ?? 'Unknown') }}
                                                     </span>
                                             @endswitch
 
@@ -105,7 +105,7 @@
 
                                                     @foreach ($purchase->details as $detail)
                                                         <li>
-                                                            {{ $detail->product->name }}
+                                                            {{ $detail->product?->name ?? 'Produk Dihapus' }}
                                                             ({{ $detail->qty }} pcs)
                                                         </li>
                                                     @endforeach
@@ -131,22 +131,22 @@
 
                                         <td>
 
-                                            @if ($purchase->purchaseOrder->status == 'pending')
+                                            @if ($purchase->purchaseOrder?->status == 'pending')
                                                 <span class="badge bg-warning text-dark">
                                                     <i class="fas fa-clock"></i>
                                                     Menunggu Persetujuan Admin
                                                 </span>
-                                            @elseif($purchase->purchaseOrder->status == 'approved')
+                                            @elseif($purchase->purchaseOrder?->status == 'approved')
                                                 <span class="badge bg-info text-dark">
                                                     <i class="fas fa-truck-loading"></i>
                                                     Siap Diproses Penerimaan
                                                 </span>
-                                            @elseif($purchase->purchaseOrder->status == 'completed')
+                                            @elseif($purchase->purchaseOrder?->status == 'completed')
                                                 <span class="badge bg-success">
                                                     <i class="fas fa-check-circle"></i>
                                                     Barang Sudah Diterima
                                                 </span>
-                                            @elseif($purchase->purchaseOrder->status == 'cancelled')
+                                            @elseif($purchase->purchaseOrder?->status == 'cancelled')
                                                 <span class="badge bg-danger">
                                                     <i class="fas fa-times-circle"></i>
                                                     Dibatalkan
