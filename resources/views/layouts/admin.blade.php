@@ -184,6 +184,11 @@
                             <i class="fas fa-shopping-cart fa-fw me-3 opacity-75"></i>
                             Pesanan Customer
                         </a>
+
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('admin.reports.index') }}">
+                            <i class="fas fa-file-pdf fa-fw me-3 opacity-75"></i>
+                            Laporan Penjualan
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer p-3 w-100 mt-auto border-top border-dark"

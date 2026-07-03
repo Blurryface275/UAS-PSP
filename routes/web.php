@@ -60,6 +60,10 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
     Route::get('admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
     Route::post('admin/orders/{id}/process', [AdminOrderController::class, 'process'])->name('admin.orders.process');
     Route::post('admin/orders/{id}/ship', [AdminOrderController::class, 'ship'])->name('admin.orders.ship');
+
+    // Route Reports & Rekapitulasi (Modul 1 Tambahan)
+    Route::get('admin/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('admin.reports.index');
+    Route::get('admin/reports/pdf', [\App\Http\Controllers\ReportController::class, 'exportPdf'])->name('admin.reports.pdf');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
