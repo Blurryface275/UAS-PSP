@@ -88,7 +88,7 @@ class CustomerOrderController extends Controller
         ]);
 
         return redirect()
-                ->route('customer.orders.tracking', $order->id)
+                ->route('customer.orders.show', $order->id)
                 ->with('success', 'Pesanan telah diterima.');
     }
 }

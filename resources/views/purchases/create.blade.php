@@ -17,21 +17,25 @@
                     <span><i class="fas fa-truck-loading me-1"></i>Form Penerimaan Barang</span>
                 </div>
                 <div class="card-body">
-                    <form method="GET" class="mb-4">
-                        <label class="form-label fw-bold">Pilih Purchase Order yang akan diterima</label>
-                        <select name="purchase_order_id" class="form-select" onchange="this.form.submit()">
-                            <option value="">-- Pilih PO --</option>
-                            @foreach ($purchaseOrders as $po)
-                                <option value="{{ $po->id }}" {{ request('purchase_order_id') == $po->id ? 'selected' : '' }}>
-                                    #{{ $po->id }} - {{ $po->supplier->name ?? '-' }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
+                    <!-- Combobox drop-down dihapus agar alurnya linier dan langsung mengunci PO dari route -->
 
                     @if ($purchaseOrder)
                         <form action="{{ route('purchase-orders.receive.store', $purchaseOrder->id) }}" method="POST">
                             @csrf
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
 
                             <div class="alert alert-info">
                                 Anda sedang menerima barang berdasarkan PO #{{ $purchaseOrder->id }} dari {{ $purchaseOrder->supplier->name ?? '-' }}.

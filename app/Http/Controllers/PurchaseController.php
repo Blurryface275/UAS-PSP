@@ -101,9 +101,10 @@ class PurchaseController extends Controller
                 'total_amount' => $totalAmount,
             ]);
 
-            $purchaseOrder->update([
-                'status' => 'completed',
-            ]);
+            // Gunakan Query Builder agar update terjamin menembus database secara instan
+            DB::table('purchase_orders')
+                ->where('id', $purchaseOrder->id)
+                ->update(['status' => 'completed']);
         });
 
         return redirect()->route('purchases.index')->with('success', 'Penerimaan barang berhasil disimpan dan stok bertambah.');

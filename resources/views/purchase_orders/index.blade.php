@@ -145,8 +145,8 @@
                                                 </form>
                                             @endif
 
-                                            <!-- Tambahan Tombol Terima Barang jika PO sudah diapprove -->
-                                            @if ($po->status === 'approved')
+                                            <!-- Tambahan Tombol Terima Barang jika PO sudah diapprove dan belum diklaim masuk -->
+                                            @if ($po->status === 'approved' && !$po->purchase()->exists())
                                                 <a href="{{ route('purchase-orders.receive', $po->id) }}" class="btn btn-primary btn-sm fw-bold">
                                                     <i class="fas fa-box-open"></i> Terima Barang
                                                 </a>
