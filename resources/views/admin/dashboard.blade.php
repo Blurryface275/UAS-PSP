@@ -57,7 +57,7 @@
                 <div class="mt-2 fs-2">{{ $salesCount }}</div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between border-0" style="background-color: rgba(0,0,0,0.1);">
-                <a class="small text-white stretched-link text-decoration-none" href="#">Proses Transaksi &rarr;</a>
+                <a class="small text-white stretched-link text-decoration-none" href="{{ route('admin.orders.index') }}">Proses Transaksi &rarr;</a>
             </div>
         </div>
     </div>

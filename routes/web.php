@@ -27,12 +27,22 @@ Route::get('/front/test-layout', function () {
     return view('layouts.front');
 });
 
-// Route yang dilindungi middleware (harus login dulu)
+// Route khusus admin
+Route::middleware(['auth', 'role:administrator'])->group(function () {
+    
+    // CRUD Manajemen User
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    // Route CategoryController -> Kategori hanya bisa ditambahkan oleh admin
+    Route::resource('category', CategoryController::class);
+    // CRUD Manajemen Supplier
+    Route::resource('supplier', \App\Http\Controllers\SupplierController::class);
+    
+});
+// Route yang dilindungi middleware (hanya bisa diakses oleh administrator dan pegawai)
 Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    // Route CategoryController
-    Route::resource('category', CategoryController::class);
+    
     // Route PurchaseOrderController
     Route::resource('purchase-orders', PurchaseOrderController::class);
     Route::post('purchase-orders/{purchaseOrder}/approve', [PurchaseOrderController::class, 'approve'])->name('purchase-orders.approve');
@@ -44,11 +54,16 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
 
     // Route ProductController
     Route::resource('product', ProductController::class);
+
+    // Route Admin Order (Penjualan - Modul 3)
+    Route::get('admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+    Route::post('admin/orders/{id}/process', [AdminOrderController::class, 'process'])->name('admin.orders.process');
+    Route::post('admin/orders/{id}/ship', [AdminOrderController::class, 'ship'])->name('admin.orders.ship');
 });
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // Route Khusus Customer (Akses belanja & histori pesanan)
@@ -91,4 +106,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 
     Route::post('/profile', [CustomerProfileController::class, 'update'])
         ->name('customer.profile.update');
+
+    
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

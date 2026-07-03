@@ -5,25 +5,24 @@
 @section('content')
 <h1 class="mt-4">Edit Etalase</h1>
 <div class="card mb-4 border-0 shadow-sm">
-    <div class="card-header bg-white"><i class="fas fa-edit me-1"></i> Form Berbahaya</div>
+    <div class="card-header bg-white"><i class="fas fa-edit me-1"></i> Form Update Produk</div>
     <div class="card-body">
         
-        <!-- JANTUNGNYA UPLOAD: Kamu WAJIB menyuntikkan enctype='multipart/form-data'. 
-             Jika terlewat 1 huruf saja, gambar hanya terbaca sebagai teks rusak! -->
+    <!-- wajib ada @csrf dan @method('PUT') untuk update data -->
         <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             
             <div class="mb-3">
-                <label class="fw-bold">Nama Kosmetik/Produk</label>
+                <label class="fw-bold">Nama Produk</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $product->name) }}" required>
             </div>
 
             <div class="mb-3">
-                <label class="fw-bold">Pemetaan Kategori</label>
+                <label class="fw-bold">Pilih Kategori</label>
                 <select name="category_id" class="form-select" required>
                     @foreach($categories as $cat)
-                    <!-- Logika cerdas mencari kategori lamanya agar terpilih otomatis (Selected) -->
+                    <!-- Ambil kategori lama -->
                     <option value="{{ $cat->id }}" {{ ($product->categories->first()->id ?? 0) == $cat->id ? 'selected' : '' }}>
                         {{ $cat->name }}
                     </option>
@@ -43,11 +42,9 @@
             </div>
 
             <div class="mb-3">
-                <label class="fw-bold">Manajemen Berkasi Foto (Format: JPG/PNG/WEBP)</label>
+                <label class="fw-bold">Foto Produk (Format: JPG/PNG/WEBP)</label>
                 <input type="file" name="image" class="form-control" accept="image/*">
-                <div class="form-text text-danger">* Biarkan kosong bila kamu sepakat tidak merubah foto lawas ini.</div>
-                
-                <!-- Secuil intipan bila web punya file foto -->
+            
                 @if($product->image_url)
                     <div class="mt-2 p-2 border rounded d-inline-block bg-light">
                         <img src="{{ asset('storage/'.$product->image_url) }}" height="60" class="rounded object-fit-cover">
@@ -56,7 +53,7 @@
             </div>
 
             <div class="mb-4">
-                <label class="fw-bold">Catatan / Deskripsi Lapak</label>
+                <label class="fw-bold">Deskripsi Produk</label>
                 <textarea name="description" class="form-control" rows="3">{{ old('description', $product->description) }}</textarea>
             </div>
 

@@ -137,55 +137,52 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav flex-column">
 
-                        <!-- AREA UTAMA -->
-                        <div class="sb-sidenav-menu-heading">Utama</div>
-                        <a class="nav-link" href="{{ route('dashboard') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('dashboard') }}">
+                            <i class="fas fa-tachometer-alt fa-fw me-3 opacity-75"></i>
                             Dashboard
                         </a>
 
-                        <!-- AREA MODUL 1: MASTER DATA (Steve) -->
-                        <div class="sb-sidenav-menu-heading">Modul 1: Master Data</div>
-                        <a class="nav-link" href="{{ route('category.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
+                        @if(auth()->user()->role === 'administrator')
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('category.index') }}">
+                            <i class="fas fa-tags fa-fw me-3 opacity-75"></i>
                             Data Kategori
                         </a>
-                        <a class="nav-link" href="{{ route('product.index') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-box-open"></i></div>
+                        @endif  
+                        
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('product.index') }}">
+                            <i class="fas fa-box-open fa-fw me-3 opacity-75"></i>
                             Data Barang / Produk
                         </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>
+                        
+                        <!-- ditampilkan kalau role admin -->
+                        @if(auth()->user()->role === 'administrator')
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('users.index') }}">
+                            <i class="fas fa-users-cog fa-fw me-3 opacity-75"></i>
                             Manajemen User
                         </a>
+                        @endif
 
-                        <!-- AREA MODUL 2: PENGADAAN (Inbound) -->
-                        <div class="sb-sidenav-menu-heading">Modul 2: Suplai Area</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('supplier.index') }}">
+                            <i class="fas fa-truck fa-fw me-3 opacity-75"></i>
                             Data Supplier
                         </a>
-                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseSubmenu" aria-expanded="false" aria-controls="purchaseSubmenu">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        
+                        <a class="nav-link py-3 fw-semibold text-white" href="#" data-bs-toggle="collapse" data-bs-target="#purchaseSubmenu" aria-expanded="false" aria-controls="purchaseSubmenu">
+                            <i class="fas fa-file-invoice-dollar fa-fw me-3 opacity-75"></i>
                             Purchase Order (PO)
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        
                         <div class="collapse" id="purchaseSubmenu">
-                            <nav class="sb-sidenav-menu-nested nav flex-column ms-3">
-                                <a class="nav-link py-2" href="{{ route('purchase-orders.index') }}"><i class="fas fa-list me-2"></i> Kelola Laporan PO</a>
-                                <a class="nav-link py-2" href="{{ route('purchases.index') }}"><i class="fas fa-box-open me-2"></i> Riwayat Penerimaan</a>
+                            <nav class="sb-sidenav-menu-nested nav flex-column ms-3 mt-1 mb-2">
+                                <a class="nav-link fw-medium" href="{{ route('purchase-orders.index') }}"><i class="fas fa-list fa-fw me-2 opacity-50"></i> Kelola Laporan PO</a>
+                                <a class="nav-link fw-medium" href="{{ route('purchases.index') }}"><i class="fas fa-box-open fa-fw me-2 opacity-50"></i> Riwayat Penerimaan</a>
                             </nav>
                         </div>
 
-                        <!-- AREA MODUL 3: PENJUALAN (Outbound - Kenny) -->
-                        <div class="sb-sidenav-menu-heading">Modul 3: Sales Area</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <a class="nav-link py-3 fw-semibold text-white" href="{{ route('admin.orders.index') }}">
+                            <i class="fas fa-shopping-cart fa-fw me-3 opacity-75"></i>
                             Pesanan Customer
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shipping-fast"></i></div>
-                            Update Pengiriman
                         </a>
                     </div>
                 </div>
