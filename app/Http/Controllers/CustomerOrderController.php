@@ -9,19 +9,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class OrderController extends Controller
+class CustomerOrderController extends Controller
 {
     // 1. Daftar Pesanan Customer
     public function index()
     {
-        $orders = Sale::where('user_id', Auth::id())->latest()->get();
-        return view('orders.index', compact('orders'));
+        $orders = Sale::where('user_id', Auth::id())
+                  ->latest()
+                  ->get();
+
+        return view('customer.orders.index', compact('orders'));
     }
 
     // 2. Checkout (Menggunakan stock dari tabel products)
     public function checkout(Request $request)
     {
-        dd($request->all());
         return DB::transaction(function () use ($request) {
             // Mengunci stok agar tidak terjadi race condition
             $product = Product::where('id', $request->product_id)
@@ -37,6 +39,7 @@ class OrderController extends Controller
 
             // Simpan ke tabel sales
             $sale = Sale::create([
+                'invoice_number' => 'INV-' . now()->format('YmdHis'),
                 'user_id' => Auth::id(),
                 'total_amount' => $product->price * $request->qty,
                 'status' => 'pending'
@@ -50,7 +53,7 @@ class OrderController extends Controller
                 'price' => $product->price
             ]);
 
-            return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat!');
+            return redirect()->route('customer.orders.index')->with('success', 'Pesanan berhasil dibuat!');
         });
     }
 
@@ -61,28 +64,31 @@ class OrderController extends Controller
                      ->where('user_id', Auth::id())
                      ->firstOrFail();
 
-        return view('orders.tracking', compact('order'));
-    }
-
-    // 4. Update Status (Pegawai)
-    public function updateStatus(Request $request, $id)
-    {
-        $order = Sale::findOrFail($id);
-        
-        if ($request->status == 'shipped') {
-            $request->validate(['tracking_receipt_number' => 'required|string|max:45']);
-            $order->tracking_receipt_number = $request->tracking_receipt_number;
-        }
-
-        $order->status = $request->status;
-        $order->save();
-
-        return back()->with('success', 'Status pesanan diupdate ke ' . $request->status);
+        return view('customer.orders.tracking', compact('order'));
     }
 
     public function showCheckout(Request $request) 
     {
         $product = Product::findOrFail($request->query('id')); 
-        return view('orders.checkout', compact('product'));
+        return view('customer.orders.checkout', compact('product'));
+    }
+
+    public function confirmReceived($id)
+    {
+        $order = Sale::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->firstOrFail();
+
+        if ($order->status !== 'shipped') {
+            return back()->with('error', 'Pesanan belum dapat diselesaikan.');
+        }
+
+        $order->update([
+            'status' => 'delivered'
+        ]);
+
+        return redirect()
+                ->route('customer.orders.tracking', $order->id)
+                ->with('success', 'Pesanan telah diterima.');
     }
 }

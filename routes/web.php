@@ -6,8 +6,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchaseOrderController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\CustomerProductController;
+use App\Http\Controllers\CustomerProfileController;
 
 
 Route::get('/', function () {
@@ -47,18 +51,44 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/checkout', [OrderController::class, 'showCheckout'])->name('orders.checkout.show');
-
 // Route Khusus Customer (Akses belanja & histori pesanan)
 Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::post('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.tracking');
-});
+    Route::get('/dashboard',
+        [CustomerDashboardController::class,'index'])
+        ->name('customer.dashboard');
 
-// Route Khusus Admin/Pegawai (Akses memproses pesanan)
-Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
-    // Tambahkan di dalam grup middleware yang sudah ada
-    Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
-    Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    Route::get('/customer/orders',
+        [CustomerOrderController::class,'index'])
+        ->name('customer.orders.index');
+
+    Route::get('/customer/orders/checkout',
+        [CustomerOrderController::class,'showCheckout'])
+        ->name('customer.orders.checkout.show');
+
+    Route::post('/customer/orders/checkout',
+        [CustomerOrderController::class,'checkout'])
+        ->name('customer.orders.checkout');
+
+    Route::get('/customer/orders/{id}',
+        [CustomerOrderController::class,'show'])
+        ->name('customer.orders.show');
+
+    Route::get('/shop',
+        [CustomerProductController::class,'index'])
+        ->name('customer.products.index');
+
+    Route::get('/shop/{id}',
+        [CustomerProductController::class,'show'])
+        ->name('customer.products.show');
+
+    Route::post(
+    '/orders/{id}/received',
+        [CustomerOrderController::class, 'confirmReceived']
+    )->name('customer.orders.received');
+
+    Route::get('/profile', [CustomerProfileController::class, 'edit'])
+    ->name('customer.profile.edit');
+
+    Route::post('/profile', [CustomerProfileController::class, 'update'])
+        ->name('customer.profile.update');
 });
