@@ -28,15 +28,28 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                    <div class="input-group">
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
 
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
+
+                            @if(session('error'))
+                                <div class="row mb-3">
+                                    <div class="col-md-6 offset-md-4">
+                                        <span class="text-danger">
+                                            <strong>{{ session('error') }}</strong>
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
 
                             <div class="row mb-3">
                                 <div class="col-md-6 offset-md-4">
@@ -69,4 +82,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+
+            if(togglePassword && password) {
+                togglePassword.addEventListener('click', function () {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    
+                    this.textContent = type === 'password' ? 'Show' : 'Hide';
+                });
+            }
+        });
+    </script>
 @endsection
