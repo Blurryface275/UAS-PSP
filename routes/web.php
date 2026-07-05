@@ -118,3 +118,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 
     
 });
+Route::get('/tes-bocor', function () {
+    // Memaksa Laravel memanggil tabel yang tidak pernah ada
+    return \Illuminate\Support\Facades\DB::select('SELECT * FROM tabel_hantu_awkwkwk'); 
+});
