@@ -35,6 +35,10 @@ class DatabaseSeeder extends Seeder
             ['email' => 'customer@uas.com'],
             ['name' => 'Customer Publik (Orang 3)', 'password' => Hash::make('password'), 'role' => 'customer']
         );
+        User::updateOrCreate(
+            ['email' => 'customer2@uas.com'],
+            ['name' => 'Customer Publik (Orang 4)', 'password' => Hash::make('password'), 'role' => 'customer']
+        );
 
         // 2. Kategori Barang Utama
         $catPakaian = Category::firstOrCreate(['name' => 'Pakaian'], ['description' => 'Produk garmen tekstil']);

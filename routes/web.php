@@ -41,7 +41,7 @@ Route::middleware(['auth', 'role:administrator'])->group(function () {
 // Route yang dilindungi middleware (hanya bisa diakses oleh administrator dan pegawai)
 Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    
     
     // Route PurchaseOrderController
     Route::resource('purchase-orders', PurchaseOrderController::class);
@@ -68,7 +68,9 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
-
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
 
 // Route Khusus Customer (Akses belanja & histori pesanan)
 Route::middleware(['auth', 'role:customer'])->group(function () {
@@ -112,5 +114,4 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
         ->name('customer.profile.update');
 
     
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
