@@ -68,6 +68,9 @@ Route::middleware(['auth', 'role:administrator,pegawai'])->group(function () {
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'storeRegister'])->middleware('throttle:5,1')->name('register.post'); // throttle:5,1 membatasi 5 kali percobaan dalam 1 menit
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');

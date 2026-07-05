@@ -44,9 +44,19 @@
                             @if(session('error'))
                                 <div class="row mb-3">
                                     <div class="col-md-6 offset-md-4">
-                                        <span class="text-danger">
+                                        <div class="alert alert-danger" role="alert">
                                             <strong>{{ session('error') }}</strong>
-                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if(session('success'))
+                                <div class="row mb-3">
+                                    <div class="col-md-6 offset-md-4">
+                                        <div class="alert alert-success" role="alert">
+                                            <strong>{{ session('success') }}</strong>
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -74,6 +84,11 @@
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
+                                    <div class="mt-2">
+                                        <a class="btn btn-link px-0" href="{{ route('register') }}">
+                                            {{ __("Don't have an account? Register here.") }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </form>

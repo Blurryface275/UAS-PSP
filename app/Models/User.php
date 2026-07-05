@@ -35,7 +35,7 @@ class User extends Authenticatable
     // Lock akun setelah 5x gagal login
     public function lock()
     {
-        $this->locked_until = now()->addHours(1);
+        $this->locked_until = now()->addHours(1); // akun terkunci selama 1 jam walau sudah benar passwordnya ato emailnya
         $this->save();
     }
 

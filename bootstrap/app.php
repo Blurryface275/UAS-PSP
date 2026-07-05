@@ -16,7 +16,18 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
 
+        $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // OWASP A10:2025 Mishandling of Exceptional Conditions
+        // Pastikan tidak ada kebocoran kredensial database (Stack Trace) ke pengguna umum
+        $exceptions->render(function (\Illuminate\Database\QueryException $e, $request) {
+            if (!config('app.debug')) {
+                return response()->json([
+                    'error' => 'Layanan Sedang Terganggu',
+                    'message' => 'Koneksi ke pangkalan data gagal. Tim kami sedang menanganinya.'
+                ], 500);
+            }
+        });
     })->create();

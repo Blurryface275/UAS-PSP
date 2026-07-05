@@ -14,7 +14,10 @@
             
             <div class="mb-3">
                 <label class="fw-bold">Nama Produk</label>
-                <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -25,27 +28,42 @@
                         <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                     @endforeach
                 </select>
+                @error('category_id')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="fw-bold">Harga Patokan (Rp)</label>
-                    <input type="number" name="price" class="form-control" value="{{ old('price') }}" required>
+                    <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" required>
+                    @error('price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="fw-bold">Stok Awal</label>
-                    <input type="number" name="stock" class="form-control" value="{{ old('stock') }}" required>
+                    <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" value="{{ old('stock') }}" required>
+                    @error('stock')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="fw-bold">Unggah Foto Produk (Opsional)</label>
-                <input type="file" name="image" class="form-control" accept="image/*">
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <label class="fw-bold">Deskripsi Produk</label>
-                <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="3">{{ old('description') }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary fw-bold"><i class="fas fa-paper-plane"></i> Simpan Produk Baru</button>

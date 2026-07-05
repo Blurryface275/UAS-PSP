@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -16,47 +17,71 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function register(){
+        return view('auth.register');
+    }
+
+    public function storeRegister(Request $request){
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(), // ini cek ke HaveiBeenPwned, klo bocor ya error
+            ],
+        ]);
+
+        $profilePicturePath = 'profiles/default.png';
+        if ($request->hasFile('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profiles', 'public');
+        }
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => 'customer',
+            'profile_picture' => $profilePicturePath,
+            'failed_login_attempts' => 0
+        ]);
+
+        return redirect()->route('login')->with('success', 'Akun berhasil didaftarkan. Silakan login dengan akun Anda.');
+    }
+
     // Handle authenticate process
     // Kalau 5x salah login, akun di lock selama 1 jam
-    public function authenticate(Request $request){
+    public function authenticate(Request $request)
+    {
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]); // di sini textbox email dan password gabole kosong, dan email harus format email
+            'email'    => 'required|email',
+            'password' => 'required'
+        ]);
 
-        // Check if user is locked
-        $user = User::where('email', $credentials['email'])->first();
-        if ($user && $user->isLocked()) {
-            return back()->with('error', 'Akun Anda terkunci. Silahkan coba lagi dalam 1 jam.');
-        }
-
-        // Attempt to authenticate
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $user = Auth::user();
-            if ($user->role == 'customer') {
-                return redirect()->intended(route('customer.dashboard'));
+            $role = Auth::user()->role;
+            if ($role === 'administrator' || $role === 'pegawai') {
+                return redirect()->intended('/dashboard');
             } else {
-                return redirect()->intended(route('dashboard'));
+                return redirect()->intended('/dashboard'); // Nanti kita arahkan ke dashboard customer
             }
         }
 
-        // Increment failed login attempts
-        if ($user) {
-            $user->increment('failed_login_attempts');
-            if ($user->failed_login_attempts >= 5) {
-                $user->lock();
-                return back()->with('error', 'Terlalu banyak percobaan login. Akun Anda terkunci selama 1 jam.');
-            }
-        }
-
-        return back()->with('error', 'Email atau password salah.');
+        return back()->withErrors([
+            'email' => 'Email atau Password salah.',
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request){
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->session()->invalidate(); // hapus session pas logout
+        $request->session()->regenerateToken(); // bikin token baru waktu logout
         return redirect('/login');
     }
 }

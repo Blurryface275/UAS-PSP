@@ -22,14 +22,13 @@ class UserController extends Controller
         return view('admin.member.create');
     }
 
-    // Eksekusi simpan ke DB (inilah yang dipanggil saat form di-submit via POST)
+    // Eksekusi simpan ke DB (ini yang dipanggil saat form di-submit via POST)
     public function store(Request $request)
     {
-        // Validasi ketat (OWASP: Input Validation)
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
-            // OWASP Password Standard: min 8 char, besar, kecil, angka, simbol
+            // ngikut OWASP lagi: pokoe min 8 char, besar, kecil, angka, simbol biar aman
             'password' => [
                 'required',
                 'confirmed',
@@ -37,7 +36,7 @@ class UserController extends Controller
                     ->mixedCase()   // Wajib ada huruf BESAR & kecil
                     ->numbers()     // Wajib ada angka
                     ->symbols()     // Wajib ada simbol (!@#$...)
-                    ->uncompromised(), // Cek ke database HaveiBeenPwned (bocor atau tidak)
+                    ->uncompromised(), // Cek ke database HaveiBeenPwned (bocor atau tidak, klo bocor ya kirim error)
             ],
             'role' => ['required', Rule::in(['administrator', 'pegawai', 'customer'])],
         ]);
@@ -48,6 +47,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password), 
             // role default adalah customer, tapi kalau dari form admin bisa diubah
             'role'     => $request->role??'customer',
+            'profile_picture' => 'profiles/default.png',
         ]);
 
         return redirect()->route('users.index')->with('success', 'Akun karyawan baru berhasil diterbitkan!');
