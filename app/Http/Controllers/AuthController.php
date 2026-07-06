@@ -64,6 +64,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        // throttleKey mengambil email dan ip untuk mencegah brute force attack
         $throttleKey = mb_strtolower($request->input('email')) . '|' . $request->ip();
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
@@ -80,7 +81,7 @@ class AuthController extends Controller
             if ($role === 'administrator' || $role === 'pegawai') {
                 return redirect()->intended('/dashboard');
             } else {
-                return redirect()->intended('/dashboard'); // Nanti kita arahkan ke dashboard customer
+                return redirect()->intended('/'); // Nanti kita arahkan ke tempat customer
             }
         }
 
