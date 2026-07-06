@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
@@ -63,7 +64,17 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        $throttleKey = mb_strtolower($request->input('email')) . '|' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            return back()->withErrors([
+                'email' => 'Terlalu banyak percobaan login. Akun Anda diblokir selama 1 jam. Coba lagi dalam ' . ceil($seconds / 60) . ' menit.',
+            ])->onlyInput('email');
+        }
+
         if (Auth::attempt($credentials)) {
+            RateLimiter::clear($throttleKey); // Hapus bloker jika berhasil
             $request->session()->regenerate();
             $role = Auth::user()->role;
             if ($role === 'administrator' || $role === 'pegawai') {
@@ -72,6 +83,8 @@ class AuthController extends Controller
                 return redirect()->intended('/dashboard'); // Nanti kita arahkan ke dashboard customer
             }
         }
+
+        RateLimiter::hit($throttleKey, 3600); // 3600 detik = 1 jam
 
         return back()->withErrors([
             'email' => 'Email atau Password salah.',
